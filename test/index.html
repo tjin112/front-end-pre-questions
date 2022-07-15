@@ -1,0 +1,54 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <!-- <link rel="stylesheet" href="./index.css" /> -->
+  </head>
+  <body>
+    <button id="btn">点击</button>
+  </body>
+  <script type="text/javascript">
+    let a = [1,2,3]
+    console.log(...[1,[2,3,4],5])
+    let age = 100;
+    let btn = document.getElementById("btn");
+    let bar = {
+      a: 1,
+      b: 2,
+      c: function () {
+        return 2;
+      },
+    };
+    let barz = { ...bar }; //{a:1,b:2}
+    let zzz = barz.c();
+    console.log(zzz);
+    btn.addEventListener("click", debounce(postData, 2000));
+    function postData() {
+      age++;
+      console.log("点击", age);
+    }
+    function debounce(callback, delay, immediate = false) {
+      let timerID;
+      return function (...args) {
+        // 清除计时器
+        clearTimeout(timerID);
+        // 判断是否为立即执行，条件为1. 没有待执行的func, immediate为true
+        const isCallImmediately = timerID == null && immediate;
+        // 如果isCallImmediately 为true， 则直接执行 callback
+        console.log("123", this, ...args);
+        if (isCallImmediately) {
+          // 在callback上通过apply() bind this， 并将callback原先带的参数 再重新传入callback
+          callback.apply(this, args);
+        }
+        timerID = setTimeout(() => {
+          if (!immediate) {
+            callback.apply(this, args);
+          }
+          timerID = null;
+        }, delay);
+      };
+    }
+  </script>
+</html>
